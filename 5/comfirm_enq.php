@@ -23,8 +23,10 @@
     <p>メール：<?php echo $_POST['email']; ?></p>
     <p>性別：<?php echo $_POST['sex']; ?></p>
     <p>趣味：<?php echo $_POST['hobby']; ?></p>
+       
+       
         
-    <form action="input_finish.php"."fputs.php" method="post">
+    <form action="input_finish.php" method="post">
     <input type="submit" value="データ送信">
     </form>
 

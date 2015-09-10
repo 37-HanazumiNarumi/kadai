@@ -18,7 +18,7 @@
 	<input type="checkbox" name="hobby" value="sport">スポーツ
 	<input type="checkbox" name="hobby" value="other">その他<br>
 	
-
+    
 	<input type="submit" value="確認"/>
 </form>
 
