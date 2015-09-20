@@ -1,4 +1,27 @@
-    <?php include("header.php"); ?>
+<?php
+// newsに表示用の変数を定義
+$view = "";
+// DB接続
+$pdo = new PDO("mysql:host=localhost;dbname=cs_academy;charset=utf8", "root", "");
+// create_date の降順に5件取得
+
+$sql = "SELECT news_id, news_title, DATE_FORMAT(create_date , '%Y.%m.%d') AS create_date FROM news ORDER BY create_date DESC LIMIT 5";
+$stmt = $pdo->prepare($sql);
+$stmt->execute();
+$results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+$pdo = null;
+foreach($results as $row){
+	// var_dump($row);
+    $title = $row["news_title"];
+ 	$title = mb_substr($title, 0, 10);
+	$title = '<a href="news.php?news_id=' . $row["news_id"] . '">' . $title . '</a>';
+ 	$view .= '<dt class="news-date">' . $row["create_date"] .'</dt>';
+ 	$view .= '<dd class="news-description">' . $title . '</dd>';
+}
+?>
+           
+
+<?php include("header.php"); ?>
             
     <section class="main_visual">
         <div class="inner">
@@ -12,35 +35,10 @@
         </h2>
         <article class="news-detail">
 
-<?php 
-
-//1.接続します
-$link = mysql_connect('localhost','root','');
-
-//2.データベース選択
-mysql_select_db("cs_academy", $link);
-
-//3.DB文字コードを指定
-mysql_set_charset("utf8", $link);
-
-//4.SELECT * FROM テーブル名；
-$sql = "SELECT * FROM news limit 5;";
-
-//5.SQLを実行する関数
-$result = mysql_query($sql, $link);
-
-//6.SQL実行し、取得したデータを表示
-echo "<dl class='clearfix'>";
-while($row = mysql_fetch_assoc($result)){
-    echo "<tr>";
-    echo "<dt class='news-date'>".$row["create_date"]."</dt>";
-    echo "<dd class='news-description'>","<a href='news.php'>".$row["news_title"]."</a>","</dd>";
-    //echo "<td>".$row["news_detail"]."</td>";
-    echo "</tr>";
-}
-echo "</dl>"
-    
-?>
+<dl class="clearfix">
+            	<?php echo $view ?>
+                
+            </dl>
            
             <p class="view-detail text-right"><a href="news_list.php">ニュース一覧を見る</a></p>
         </article>
